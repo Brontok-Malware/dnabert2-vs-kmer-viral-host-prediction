@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 40px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        p { line-height: 1.6; color: #555; }
+        .legend { display: flex; align-items: center; margin: 25px 0; font-size: 14px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; }
+        .legend-box { width: 24px; height: 24px; margin-right: 12px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .spacer { width: 30px; }
+        .seq-container { display: flex; flex-wrap: wrap; gap: 6px; font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .token { padding: 6px 8px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.05); color: #000; text-shadow: 0 0 2px rgba(255,255,255,0.8); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Genomische Hotspots (DNABERT-2 XAI)</h2>
+        <p>Die nachfolgende Visualisierung nutzt <strong>Integrated Gradients</strong>, um die Entscheidungsfindung des Foundation Models transparent zu machen. Die Farbintensität korreliert mit dem Einfluss des jeweiligen Token auf die Modellvorhersage.</p>
+        
+        <div class="legend">
+            <div class="legend-box" style="background-color: rgba(220, 53, 69, 0.9);"></div> 
+            <span><strong>Positiver Einfluss</strong><br>Erhöht die Wahrscheinlichkeit für "Human"</span>
+            <div class="spacer"></div>
+            <div class="legend-box" style="background-color: rgba(13, 110, 253, 0.9);"></div> 
+            <span><strong>Negativer Einfluss</strong><br>Verringert die Wahrscheinlichkeit für "Human"</span>
+        </div>
+        
+        <div class="seq-container">
+<div class='token' style='background-color: rgba(13, 110, 253, 0.297);'>CAAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.765);'>CTCAGAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.151);'>CTTTTTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.292);'>CAATCA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.400);'>GCAAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.207);'>TCTAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.255);'>CTTTAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.416);'>TTAATG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.129);'>TAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.221);'>GCAGCA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.111);'>CTTA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.250);'>TGATG</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.461);'>GCATCTA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.275);'>TTATG</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.644);'>GCACTGA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.814);'>TGAAAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.163);'>GATAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.530);'>GGCAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.345);'>TCGTTA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.340);'>CAGAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.939);'>TAAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.222);'>GTAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.578);'>TACTA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.652);'>CAAATCA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.275);'>CAAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.371);'>CTGTT</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.801);'>AAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.123);'>TTAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.379);'>GCCACA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.734);'>TACCA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.450);'>GAGAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.379);'>CCTCCTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.670);'>CTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.675);'>TACAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.630);'>GAAAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.349);'>CAGTT</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.379);'>TGAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.360);'>TTACAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.118);'>GATG</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.651);'>CAGAAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.603);'>CTGATG</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.800);'>AAAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.399);'>CGAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.444);'>TCAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.317);'>AAATT</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.966);'>CCCTCA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.861);'>GCTA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.127);'>CTGTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.324);'>GCAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 1.000);'>TC</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.485);'>GTGGTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.502);'>GGA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.279);'>GTGATT</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.151);'>GCGG</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.448);'>GCTTTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.126);'>TAA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.693);'>CTCTGA</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.181);'>TCATT</div>
+<div class='token' style='background-color: rgba(220, 53, 69, 0.737);'>GTCTTCA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.479);'>TATG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.846);'>CTACA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.275);'>TCTG</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.201);'>CTGCC</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.337);'>GCAA</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 1.000);'>GC</div>
+<div class='token' style='background-color: rgba(13, 110, 253, 0.187);'>GT</div>
+
+        </div>
+    </div>
+</body>
+</html>
