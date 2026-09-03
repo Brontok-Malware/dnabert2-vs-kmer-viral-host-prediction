@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 from datasets import Dataset
 from transformers import AutoTokenizer, AutoModel, AutoConfig, Trainer
 import torch.nn as nn
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score, matthews_corrcoef
 
 model_name = "zhihan1996/DNABERT-2-117M"
 model_save_path = "./DNABERT2_BestModel"
@@ -49,12 +50,18 @@ class DNABERT2ForSequenceClassification(nn.Module):
         return {"loss": loss, "logits": logits} if loss is not None else {"logits": logits}
 
 # ==========================================
-# 2. Daten laden & Tokenisieren
+# 2. Daten laden & mit LabelEncoder kodieren (wie bei Baselines)
 # ==========================================
 tokenizer = AutoTokenizer.from_pretrained(model_save_path, trust_remote_code=True)
 
+df_train = pd.read_csv("virus_host_train_cleaned.csv")
 df_test = pd.read_csv("virus_host_test_cleaned.csv")
-df_test['label'] = df_test['host'].apply(lambda x: 1 if x == "human" else 0)
+
+# Exakt wie in Anhang C (Baselines): alphabetisch fitten!
+le = LabelEncoder()
+le.fit(df_train['host']) # human = 0, non-human = 1
+
+df_test['label'] = le.transform(df_test['host'])
 test_dataset = Dataset.from_pandas(df_test[['sequence', 'label']])
 
 def tokenize_function(examples):
@@ -77,16 +84,36 @@ trainer = Trainer(model=model)
 predictions = trainer.predict(tokenized_test)
 
 logits = predictions.predictions[0] if isinstance(predictions.predictions, tuple) else predictions.predictions
-# FIX: Wir drehen die Vorhersagen um (1 - x), da das Modell "human" als 0 gelernt hat, 
-# wir es im Plot aber als 1 darstellen wollen.
-preds = 1 - np.argmax(logits, axis=-1)
+# Direkte Klassenvorhersage ohne künstliche Label-Verdrehung
+preds = np.argmax(logits, axis=-1)
 
 # ==========================================
-# 4. Matrix plotten
+# 4. Kontrollausgabe der Metriken
 # ==========================================
-cm = confusion_matrix(predictions.label_ids, preds)
+print("\n--- Überprüfung der Metriken auf Testdaten ---")
+y_true = predictions.label_ids
+
+acc = accuracy_score(y_true, preds)
+prec = precision_score(y_true, preds)
+rec = recall_score(y_true, preds)
+f1 = f1_score(y_true, preds)
+mcc = matthews_corrcoef(y_true, preds)
+
+print(f"Accuracy:  {acc * 100:.2f}%")
+print(f"Precision: {prec * 100:.2f}%")
+print(f"Recall:    {rec * 100:.2f}%")
+print(f"F1-Score:  {f1:.4f}")
+print(f"MCC:       {mcc:.4f}")
+
+# ==========================================
+# 5. Matrix plotten mit denselben Klassenlabels wie bei Baselines
+# ==========================================
+cm = confusion_matrix(y_true, preds)
+# Exakt dieselbe Beschriftung und Reihenfolge wie bei Random Forest und MLP:
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Non-Human", "Human"])
 disp.plot(cmap="Blues", values_format="d")
 plt.title("Konfusionsmatrix: DNABERT-2")
 plt.savefig("cm_dnabert.png", dpi=300, bbox_inches='tight')
-print("DNABERT-2 Matrix erfolgreich als 'cm_dnabert.png' gespeichert!")
+plt.close()
+
+print("\nDNABERT-2 Matrix erfolgreich als 'cm_dnabert.png' gespeichert!")
